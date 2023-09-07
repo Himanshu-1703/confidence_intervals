@@ -2,6 +2,8 @@ import streamlit as st
 import scipy.stats as stats
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
+
 
 # title
 st.title("Student's T-Distribution")
@@ -10,21 +12,25 @@ st.title("Student's T-Distribution")
 st.sidebar.title('Menu')
 
 dof = st.sidebar.slider(label='Degrees of Freedom',
-                        min_value=5,max_value=200,
-                        step=1)
+                        min_value=1,max_value=200,
+                        step=1,value=10)
+
+# make X
+x = np.linspace(-5,5,1000)
 
 # make the two distributions
-normal = stats.norm.rvs(loc=0,scale=1,size=5000,random_state=1)
+normal = stats.norm.pdf(x)
 
-t_dist = stats.t.rvs(loc=0,scale=1,size=5000,random_state=1,df=dof)
+t_dist = stats.t.pdf(x,df=dof)
 
 # plot the two distribution
 
 fig = plt.figure(figsize=(15,10))
 
-sns.kdeplot(normal,label='Normal Distribution')
-sns.kdeplot(t_dist,label=f'T Distribution with df={dof}')
+sns.lineplot(normal,label='Normal Distribution')
+sns.lineplot(t_dist,label=f'T Distribution with df={dof}')
+plt.title('Normal vs T-Distribution')
 plt.legend()
-plt.xlim((-3,3))
+
 
 st.pyplot(fig=fig)

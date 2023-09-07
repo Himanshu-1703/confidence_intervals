@@ -14,7 +14,9 @@ method =  st.sidebar.selectbox(label='Select the Method',
                                options=['Z Procedure','T Procedure'])
 
 
+## Population Parameters
 st.sidebar.header('Population parameters')
+
 # select the population mean
 pop_mean = st.sidebar.slider(label='Population Mean',
                             min_value=10,
@@ -29,6 +31,7 @@ pop_std = st.sidebar.slider(label='Population Standard Deviation',
                             value=15,
                             step=1)
 
+## Sample Parameters
 st.sidebar.header('Sample parameters')
 
 # select the number of samples
@@ -98,13 +101,14 @@ if btn:
     plt.vlines(x=np.arange(1,num_of_steps+1,1),ymin=lower_bounds,ymax=upper_bounds,colors=colors,label='Confidence Intervals')
     plt.scatter(x=np.arange(1,num_of_steps+1,1),y=upper_bounds,c=colors,marker='_')
     plt.scatter(x=np.arange(1,num_of_steps+1,1),y=lower_bounds,c=colors,marker='_')
+    plt.xlabel('Iterations')
     plt.legend()
     
     # plot on page
     st.pyplot(fig)
     
     # print the statistics on page
-    st.write(f'The Population Mean is in {num_of_steps-count_orange} confidence intervals out of {num_of_steps} which is {np.round((num_of_steps-count_orange)/num_of_steps,2)*100}% of times')
+    st.write(f'The Population Mean is in {num_of_steps-count_orange} confidence intervals out of {num_of_steps} which is {(((num_of_steps-count_orange)/num_of_steps)*100):.2f}% of times')
 
 
 
