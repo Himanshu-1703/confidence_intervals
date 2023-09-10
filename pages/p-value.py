@@ -13,7 +13,7 @@ st.sidebar.title('Options')
 
 # value of prob
 prob = st.sidebar.slider(label='Select the number of heads',
-                         min_value=30,max_value=80,
+                         min_value=50,max_value=80,
                          value=50,step=1)
 
 
@@ -38,35 +38,35 @@ sample = np.random.binomial(n=k,p=p,size=n)
 btn = st.sidebar.button(label='Apply')
 
     # make dataframe
-    if btn:
+if btn:
 
-        hue = np.where(sample>=prob,1,0)
+    hue = np.where(sample>=prob,1,0)
 
-        df = pd.DataFrame({'sample':sample,'hue':hue})
+    df = pd.DataFrame({'sample':sample,'hue':hue})
 
-        # do the calculations
-        distribution = stats.binom(k=k,n=n,p=p)
-        probability = distribution.pmf(prob)
-        
-        p_val = distribution.sf(prob)
-        
+    # do the calculations
+    distribution = stats.binom(n=k,p=p)
+    probability = distribution.pmf(prob)
+    
+    p_val = distribution.sf(prob)
+    
 
-        # display the results
+    # display the results
 
-        st.write(f'Probability of getting exactly {prob} out of 100 is {probability}')
-        st.write(f'P value is {p_val}')
-        st.write(decision(p_val))
-        
-        st.subheader('Binomial Distribution')
-        
-        # plot the graph
-        # Set the color palette
-        colors = ['blue','red']
-        
-        fig,ax = plt.subplots(1,1,figsize=(15,10))
+    st.write(f'Probability of getting exactly {prob} out of 100 is {probability:.2f}')
+    st.write(f'P value is {p_val:.2f}')
+    st.write(decision(p_val))
+    
+    st.subheader('Binomial Distribution')
+    
+    # plot the graph
+    # Set the color palette
+    colors = ['blue','red']
+    
+    fig,ax = plt.subplots(1,1,figsize=(15,10))
 
-        sns.histplot(data=df,x='sample',bins=40,hue='hue',
-                    alpha=1,palette=colors,ax=ax
-                    stat='probability',legend=False)
-        
-        st.pyplot(fig)
+    sns.histplot(data=df,x='sample',bins=40,hue='hue',
+                alpha=1,palette=colors,ax=ax,
+                stat='probability',legend=False)
+    
+    st.pyplot(fig)
