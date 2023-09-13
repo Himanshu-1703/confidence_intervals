@@ -64,11 +64,13 @@ if btn:
     upper_bounds = []
     lower_bounds = []
     colors = []
+    means = []
     area = (((confidence_level + 100) / 100 )/2)
 
     for i in range(num_of_steps):
         sample = np.random.normal(loc=pop_mean,scale=pop_std,size=num_samples)
         sample_mean = np.mean(sample)
+        means.append(sample_mean)
         sample_std = np.std(sample,ddof=1)
         
         if method == 'Z Procedure':
@@ -98,6 +100,7 @@ if btn:
     fig = plt.figure(figsize=(15,7))
 
     plt.axhline(y=pop_mean,linestyle='--',color='red',label='Population Mean')
+    plt.scatter(x=np.arange(1,num_of_steps+1,1),y=means,s=30,edgecolor='grey',linewidth=2,label='Sample Mean')
     plt.vlines(x=np.arange(1,num_of_steps+1,1),ymin=lower_bounds,ymax=upper_bounds,colors=colors,label='Confidence Intervals')
     plt.scatter(x=np.arange(1,num_of_steps+1,1),y=upper_bounds,c=colors,marker='_')
     plt.scatter(x=np.arange(1,num_of_steps+1,1),y=lower_bounds,c=colors,marker='_')
